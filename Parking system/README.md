@@ -1,82 +1,191 @@
-# نظام مواقف إفران الذكي — Ifrane Smart Parking
+# Ifrane Smart Parking — Backend (FastAPI + MySQL)
 
-Modern, RTL-first front-end for a smart parking management system in Ifrane, Morocco. Built with React + TypeScript + Vite + Tailwind CSS v4 + shadcn/ui + Recharts.
+REST API for the Ifrane Smart Parking system. Built with **FastAPI**, **SQLAlchemy 2**, **MySQL**, and **JWT** auth. Matches the React frontend in the parent folder.
 
-## ✨ Design improvements over the original
+##  What's included
 
-This rebuild preserves the original Figma structure and Arabic content but upgrades the visual language and UX:
+- **JWT authentication** — register, login (user), login (agent by code), `/auth/me`.
+- **Role-based access control** — `user`, `agent`, `admin` roles with dependency guards.
+- **Parking lots** — public list + admin CRUD.
+- **Reservations** — users can book a spot (debits lot availability), list their own, or cancel (refunds availability).
+- **Agent controls** — `/agent/enter` and `/agent/exit` adjust the lot's live counter.
+- **Admin analytics** — users list, agents list, and an analytics summary (capacity, occupancy per lot, revenue today).
+- **Seed script** — creates the 5 Arabic-named lots, 4 agents (`AGT-001`…`AGT-004`), and an admin account that match the frontend mock data exactly.
 
-- **Hero section** on the landing page with a gradient mesh background, animated parking map preview, live status ripples, and floating trust-badges.
-- **Unified logo + language switcher** as shared components (`src/components/shared/`), so every screen stays consistent.
-- **Glassmorphism top bars** with sticky navigation and progressive disclosure of controls.
-- **Richer map view**: curved roads, building blocks, a pulsing user-location pin, animated parking pins with live counts, filter chips, and a progress bar per lot.
-- **Payment screen redesigned** as a 3-step checkout with a live credit-card preview, auto-formatted card number/expiry, step indicator, and a sticky order summary.
-- **Receipt redesigned** as a ticket with perforated edge, logo-embedded QR, copyable booking ID, detail cards, and contextual tips.
-- **Agent dashboard** upgraded with a circular progress ring, big tactile +/- buttons, an activity log, status pill, and live capacity bar.
-- **Admin dashboard** fully reworked with a left sidebar, an Overview tab (Area + Pie + activity feed), trend deltas on every stat card, and color-graded occupancy bars in tables.
-- **Motion + polish**: `fade-up`, `slide-in`, `float`, `pulse-ring`, and `ripple` keyframes; consistent shadow scale (`shadow-soft`, `shadow-card`, `shadow-green`, `shadow-elev`).
-- **Accessibility**: visible focus rings, semantic landmarks (`header`, `main`, `aside`, `section`), larger tap targets, and reduced text on busy screens.
+##  Prerequisites
 
-## 🚀 Getting started
+1. **Python 3.10+** — check with `python --version`
+2. **MySQL Server 8+** — install from https://dev.mysql.com/downloads/installer/ (Windows), or `brew install mysql` (Mac), or `sudo apt install mysql-server` (Linux).
 
-Prerequisites: **Node.js 18+** and **npm 9+**.
+##  Setup
+
+### 1. Create the MySQL database
+
+Open a terminal and log into MySQL:
 
 ```bash
-# 1. Install dependencies
-npm install
-
-# 2. Run the dev server (opens http://localhost:5173)
-npm run dev
-
-# 3. Production build
-npm run build
-npm run preview
+mysql -u root -p
 ```
 
-## 🗺️ Routes
+Then inside the MySQL prompt:
 
-| Route                | Screen             |
-| -------------------- | ------------------ |
-| `/`                  | Landing            |
-| `/user/map`          | Parking map + list |
-| `/user/login`        | User login         |
-| `/user/payment`      | Payment checkout   |
-| `/user/receipt`      | Digital receipt    |
-| `/agent/login`       | Agent login        |
-| `/agent/dashboard`   | Agent dashboard    |
-| `/admin`             | Admin dashboard    |
-
-## 🎨 Theme
-
-Primary color: `#2E7D32` (Ifrane cedar green). Accent: `#e8f5e9`. Destructive: `#d32f2f`. Warning: `#f59e0b`. Fonts: `IBM Plex Sans Arabic` + `Inter`.
-
-All CSS tokens live in `src/styles/globals.css`. Tailwind v4 reads them via `@theme inline`.
-
-## 📂 Project structure
-
-```
-src/
-├── App.tsx                     # Router provider
-├── routes.tsx                  # Route definitions
-├── main.tsx                    # Entry point
-├── styles/globals.css          # Tokens, utilities, animations
-└── components/
-    ├── LandingPage.tsx
-    ├── shared/                 # Logo, LanguageSwitcher
-    ├── user/                   # UserLogin, UserMapView, PaymentSelection, DigitalReceipt
-    ├── agent/                  # AgentLogin, AgentDashboard
-    ├── admin/                  # AdminDashboard
-    ├── figma/                  # ImageWithFallback
-    └── ui/                     # shadcn/ui primitives
+```sql
+CREATE DATABASE ifrane_parking CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
 ```
 
-## 🌐 Languages
+> The `utf8mb4` charset is required so Arabic lot names (`موقف الجامعة` …) save correctly.
 
-The language switcher (AR / FR / EN) is wired up as state. To enable full i18n, swap the switcher's `useState` for `react-i18next` and move page strings into resource files.
+### 2. Configure environment variables
 
-## 📝 Notes
+Copy `.env.example` to `.env` and edit the MySQL credentials:
 
-- Routes are client-side (`react-router v7`). If you deploy to a static host, configure SPA fallback to `index.html`.
-- Charts use Recharts. Colors are sourced from the green palette in CSS variables.
-- The map is stylised SVG — plug in Mapbox GL or Leaflet later by replacing the SVG block in `UserMapView.tsx`.
+```bash
+cd backend
+copy .env.example .env    # Windows
+# cp .env.example .env    # Mac/Linux
+```
 
+Edit `.env` and set `DATABASE_URL` to match your MySQL user / password:
+
+```
+DATABASE_URL=mysql+pymysql://root:YOUR_MYSQL_PASSWORD@localhost:3306/ifrane_parking
+```
+
+### 3. Install Python dependencies
+
+From the `backend/` folder:
+
+```bash
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# Mac/Linux:
+source .venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+### 4. Seed the database
+
+```bash
+python -m app.seed
+```
+
+This creates the tables and inserts:
+
+| Type      | Credentials                                                      |
+| --------- | ---------------------------------------------------------------- |
+| **Admin** | email `admin@ifrane-parking.ma` · password `Admin@12345`          |
+| **Agents**| codes `AGT-001`, `AGT-002`, `AGT-003`, `AGT-004` · password `Agent@12345` |
+| **Lots**  | 5 parking lots matching the frontend (موقف الجامعة / المدينة / السوق / الأسد / الحديقة) |
+
+### 5. Run the server
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+- API root: http://localhost:8000
+- Interactive docs (Swagger): http://localhost:8000/docs
+- Alternative docs (ReDoc): http://localhost:8000/redoc
+
+## 🔑 API endpoints
+
+### Auth
+
+| Method | Path                 | Body                                          | Description                |
+| ------ | -------------------- | --------------------------------------------- | -------------------------- |
+| POST   | `/auth/register`     | `{full_name,email,phone?,password}`           | Create a regular user      |
+| POST   | `/auth/login`        | `{email,password}`                            | Log in as user/admin       |
+| POST   | `/auth/agent/login`  | `{agent_code,password}`                       | Log in as an agent         |
+| GET    | `/auth/me`           | — (Bearer token)                              | Return the current user    |
+
+### Parking lots
+
+| Method | Path            | Access  | Body                                   |
+| ------ | --------------- | ------- | -------------------------------------- |
+| GET    | `/lots`         | public  | —                                      |
+| GET    | `/lots/{id}`    | public  | —                                      |
+| POST   | `/lots`         | admin   | ParkingLotCreate                       |
+| PATCH  | `/lots/{id}`    | admin   | ParkingLotUpdate (partial)             |
+| DELETE | `/lots/{id}`    | admin   | —                                      |
+
+### Reservations
+
+| Method | Path                                | Access | Body                                           |
+| ------ | ----------------------------------- | ------ | ---------------------------------------------- |
+| POST   | `/reservations`                     | user   | `{lot_id,duration_hours,payment_method?}`      |
+| GET    | `/reservations/me`                  | user   | —                                              |
+| GET    | `/reservations`                     | admin  | —                                              |
+| POST   | `/reservations/{id}/cancel`         | user   | —                                              |
+
+### Agent
+
+| Method | Path              | Access | Description                          |
+| ------ | ----------------- | ------ | ------------------------------------ |
+| GET    | `/agent/my-lot`   | agent  | Return the agent's assigned lot      |
+| POST   | `/agent/enter`    | agent  | A car entered — decrement available  |
+| POST   | `/agent/exit`     | agent  | A car left — increment available     |
+
+### Admin
+
+| Method | Path               | Access | Description                          |
+| ------ | ------------------ | ------ | ------------------------------------ |
+| GET    | `/admin/users`     | admin  | All regular users                    |
+| GET    | `/admin/agents`    | admin  | All agents                           |
+| GET    | `/admin/analytics` | admin  | Totals + per-lot occupancy + today's revenue |
+
+## 🧪 Quick smoke test (curl / PowerShell Invoke-RestMethod)
+
+```bash
+# 1. Register
+curl -X POST http://localhost:8000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"full_name":"فيروز","email":"test@example.com","password":"test1234"}'
+
+# 2. Login (save the access_token from the response)
+curl -X POST http://localhost:8000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test1234"}'
+
+# 3. List lots
+curl http://localhost:8000/lots
+
+# 4. Book a spot (replace TOKEN)
+curl -X POST http://localhost:8000/reservations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer TOKEN" \
+  -d '{"lot_id":1,"duration_hours":2}'
+```
+
+##  Structure
+
+```
+backend/
+├── app/
+│   ├── __init__.py
+│   ├── config.py                 # env vars
+│   ├── database.py               # SQLAlchemy engine / Base / get_db
+│   ├── models.py                 # User, ParkingLot, Reservation
+│   ├── schemas.py                # Pydantic request/response models
+│   ├── security.py               # bcrypt + JWT helpers
+│   ├── deps.py                   # get_current_user, require_admin, require_agent
+│   ├── main.py                   # FastAPI app + CORS + routers
+│   ├── seed.py                   # Seeds lots, agents, admin
+│   └── routers/
+│       ├── auth.py
+│       ├── lots.py
+│       ├── reservations.py
+│       ├── agent.py
+│       └── admin.py
+├── requirements.txt
+├── .env.example
+└── README.md
+```
+
+##  Notes
+
+- Tables are auto-created on startup (`Base.metadata.create_all`). For production, swap to Alembic migrations.
+- Change `JWT_SECRET` in `.env` before deploying.
+- The frontend dev server (Vite, port 5173) is allow-listed in CORS via `CORS_ORIGINS` in `.env`.
