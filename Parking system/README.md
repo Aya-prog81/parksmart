@@ -90,7 +90,7 @@ uvicorn app.main:app --reload --port 8000
 - Interactive docs (Swagger): http://localhost:8000/docs
 - Alternative docs (ReDoc): http://localhost:8000/redoc
 
-## 🔑 API endpoints
+##  API endpoints
 
 ### Auth
 
@@ -136,7 +136,7 @@ uvicorn app.main:app --reload --port 8000
 | GET    | `/admin/agents`    | admin  | All agents                           |
 | GET    | `/admin/analytics` | admin  | Totals + per-lot occupancy + today's revenue |
 
-## 🧪 Quick smoke test (curl / PowerShell Invoke-RestMethod)
+##  Quick smoke test (curl / PowerShell Invoke-RestMethod)
 
 ```bash
 # 1. Register
