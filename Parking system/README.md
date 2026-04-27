@@ -183,9 +183,3 @@ backend/
 ├── .env.example
 └── README.md
 ```
-
-##  Notes
-
-- Tables are auto-created on startup (`Base.metadata.create_all`). For production, swap to Alembic migrations.
-- Change `JWT_SECRET` in `.env` before deploying.
-- The frontend dev server (Vite, port 5173) is allow-listed in CORS via `CORS_ORIGINS` in `.env`.
