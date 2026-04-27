@@ -1,21 +1,21 @@
-# Ifrane Smart Parking — Backend (FastAPI + MySQL)
+# Ifrane Smart Parking: Backend (FastAPI + MySQL)
 
 REST API for the Ifrane Smart Parking system. Built with **FastAPI**, **SQLAlchemy 2**, **MySQL**, and **JWT** auth. Matches the React frontend in the parent folder.
 
 ##  What's included
 
-- **JWT authentication** — register, login (user), login (agent by code), `/auth/me`.
-- **Role-based access control** — `user`, `agent`, `admin` roles with dependency guards.
-- **Parking lots** — public list + admin CRUD.
-- **Reservations** — users can book a spot (debits lot availability), list their own, or cancel (refunds availability).
-- **Agent controls** — `/agent/enter` and `/agent/exit` adjust the lot's live counter.
-- **Admin analytics** — users list, agents list, and an analytics summary (capacity, occupancy per lot, revenue today).
-- **Seed script** — creates the 5 Arabic-named lots, 4 agents (`AGT-001`…`AGT-004`), and an admin account that match the frontend mock data exactly.
+- **JWT authentication**: register, login (user), login (agent by code), `/auth/me`.
+- **Role-based access control**: `user`, `agent`, `admin` roles with dependency guards.
+- **Parking lots**: public list + admin CRUD.
+- **Reservations**: users can book a spot (debits lot availability), list their own, or cancel (refunds availability).
+- **Agent controls**: `/agent/enter` and `/agent/exit` adjust the lot's live counter.
+- **Admin analytics**: users list, agents list, and an analytics summary (capacity, occupancy per lot, revenue today).
+- **Seed script**: creates the 5 Arabic-named lots, 4 agents (`AGT-001`…`AGT-004`), and an admin account that match the frontend mock data exactly.
 
 ##  Prerequisites
 
-1. **Python 3.10+** — check with `python --version`
-2. **MySQL Server 8+** — install from https://dev.mysql.com/downloads/installer/ (Windows), or `brew install mysql` (Mac), or `sudo apt install mysql-server` (Linux).
+1. **Python 3.10+**: check with `python --version`
+2. **MySQL Server 8+**: install from https://dev.mysql.com/downloads/installer/ (Windows), or `brew install mysql` (Mac), or `sudo apt install mysql-server` (Linux).
 
 ##  Setup
 
