@@ -1,4 +1,4 @@
-# Ifrane Smart Parking: Backend (FastAPI + MySQL)
+# ParkSmart Ifrane: Municipal Parking & Mobility Backend
 
 REST API for the Ifrane Smart Parking system. Built with **FastAPI**, **SQLAlchemy 2**, **MySQL**, and **JWT** auth. Matches the React frontend in the parent folder.
 
