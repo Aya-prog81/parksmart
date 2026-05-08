@@ -66,7 +66,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Seed the database
+### 4. Seed  the database
 
 ```bash
 python -m app.seed
@@ -80,7 +80,7 @@ This creates the tables and inserts:
 | **Agents**| codes `AGT-001`, `AGT-002`, `AGT-003`, `AGT-004` · password `Agent@12345` |
 | **Lots**  | 5 parking lots matching the frontend (موقف الجامعة / المدينة / السوق / الأسد / الحديقة) |
 
-### 5. Run the server
+### 5. Run  the server
 
 ```bash
 uvicorn app.main:app --reload --port 8000
@@ -92,7 +92,7 @@ uvicorn app.main:app --reload --port 8000
 
 ##  API endpoints
 
-### Auth
+###  Auth
 
 | Method | Path                 | Body                                          | Description                |
 | ------ | -------------------- | --------------------------------------------- | -------------------------- |
@@ -120,7 +120,7 @@ uvicorn app.main:app --reload --port 8000
 | GET    | `/reservations`                     | admin  | —                                              |
 | POST   | `/reservations/{id}/cancel`         | user   | —                                              |
 
-### Agent
+###  Agent
 
 | Method | Path              | Access | Description                          |
 | ------ | ----------------- | ------ | ------------------------------------ |
