@@ -143,7 +143,7 @@ ADMIN = {
     "password": "Admin@12345",
 }
 
-AGENT_DEFAULT_PASSWORD = "Agent@12345"
+AGENT_DEFAULT_PASSWORD = "Agent@12345" 
 
 
 def seed(db: Session, *, force: bool = False) -> None:
