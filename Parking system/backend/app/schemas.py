@@ -9,7 +9,6 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from app.models import ReservationStatus, UserRole
 
 
-# ---------- User / Auth ----------
 
 class UserRegister(BaseModel):
     full_name: str = Field(min_length=2, max_length=120)
@@ -139,7 +138,7 @@ class AnalyticsSummary(BaseModel):
     occupancy_by_lot: list[OccupancyPoint]
 
 
-# ---------- Generic ----------
+
 
 class Message(BaseModel):
     message: str
