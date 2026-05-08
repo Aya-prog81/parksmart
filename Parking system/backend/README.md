@@ -2,7 +2,7 @@
 
 REST API for the Ifrane Smart Parking system. Built with **FastAPI**, **SQLAlchemy 2**, **MySQL**, and **JWT** auth. Matches the React frontend in the parent folder.
 
-## ✨ What's included
+##  What's included
 
 - **JWT authentication** — register, login (user), login (agent by code), `/auth/me`.
 - **Role-based access control** — `user`, `agent`, `admin` roles with dependency guards.
@@ -12,12 +12,12 @@ REST API for the Ifrane Smart Parking system. Built with **FastAPI**, **SQLAlche
 - **Admin analytics** — users list, agents list, and an analytics summary (capacity, occupancy per lot, revenue today).
 - **Seed script** — creates the 5 Arabic-named lots, 4 agents (`AGT-001`…`AGT-004`), and an admin account that match the frontend mock data exactly.
 
-## 📋 Prerequisites
+##  Prerequisites
 
 1. **Python 3.10+** — check with `python --version`
 2. **MySQL Server 8+** — install from https://dev.mysql.com/downloads/installer/ (Windows), or `brew install mysql` (Mac), or `sudo apt install mysql-server` (Linux).
 
-## 🚀 Setup
+##  Setup
 
 ### 1. Create the MySQL database
 
@@ -90,7 +90,7 @@ uvicorn app.main:app --reload --port 8000
 - Interactive docs (Swagger): http://localhost:8000/docs
 - Alternative docs (ReDoc): http://localhost:8000/redoc
 
-## 🔑 API endpoints
+##  API endpoints
 
 ### Auth
 
@@ -136,7 +136,7 @@ uvicorn app.main:app --reload --port 8000
 | GET    | `/admin/agents`    | admin  | All agents                           |
 | GET    | `/admin/analytics` | admin  | Totals + per-lot occupancy + today's revenue |
 
-## 🧪 Quick smoke test (curl / PowerShell Invoke-RestMethod)
+##  Quick smoke test (curl / PowerShell Invoke-RestMethod)
 
 ```bash
 # 1. Register
@@ -159,7 +159,7 @@ curl -X POST http://localhost:8000/reservations \
   -d '{"lot_id":1,"duration_hours":2}'
 ```
 
-## 🗂️ Structure
+##  Structure
 
 ```
 backend/
@@ -184,7 +184,7 @@ backend/
 └── README.md
 ```
 
-## 🔒 Notes
+##  Notes
 
 - Tables are auto-created on startup (`Base.metadata.create_all`). For production, swap to Alembic migrations.
 - Change `JWT_SECRET` in `.env` before deploying.
