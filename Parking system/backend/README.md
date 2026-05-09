@@ -2,6 +2,11 @@
 
 REST API for the Ifrane Smart Parking system. Built with **FastAPI**, **SQLAlchemy 2**, **MySQL**, and **JWT** auth. Matches the React frontend in the parent folder.
 
+## Live Deployment
+
+- **Frontend:** https://parksmart-blush.vercel.app
+- **Backend API Docs:** https://parksmart-production.up.railway.app/docs
+
 ##  What's included
 
 - **JWT  authentication** — register, login (user), login (agent by code), `/auth/me`.
