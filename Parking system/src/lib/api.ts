@@ -5,7 +5,7 @@
 
 const BASE_URL =
   ((import.meta as any).env?.VITE_API_BASE_URL as string | undefined) ??
-  "http://localhost:8000";
+  "https://parksmart-production.up.railway.app";
 
 const TOKEN_KEY = "ifrane.token";
 const USER_KEY = "ifrane.user";
