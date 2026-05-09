@@ -16,9 +16,8 @@ class Settings:
         "DATABASE_URL",
         "mysql+pymysql://root:password@localhost:3306/ifrane_parking",
     )
-    # Fix Railway's mysql:// to mysql+pymysql://
     if DATABASE_URL.startswith("mysql://"):
-    DATABASE_URL = DATABASE_URL.replace("mysql://", "mysql+pymysql://", 1)
+        DATABASE_URL = DATABASE_URL.replace("mysql://", "mysql+pymysql://", 1)
     
     JWT_SECRET: str = os.getenv("JWT_SECRET", "change-me")
     JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
